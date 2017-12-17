@@ -1,15 +1,15 @@
 /*
- * Victoria Teensy ROS Node
+ * Kitt Teensy ROS Node
  * 
  * This code is the ROS node that executes on the Teensy processor
- * for the Victoria RoboMagellan team.
+ * for the Kitt Car team.
  * 
  * It uses the rosserial library to communicate with ROS. It uses
  * Arduino and Teensy libraries to interact with systems and
  * circuits connected to the Teensy processor. This code assumes
  * that a Teensy 3.5 is used.
  * 
- * https://github.com/victoriarobotics
+ * https://github.com/kittcar
  * 
  */
 
