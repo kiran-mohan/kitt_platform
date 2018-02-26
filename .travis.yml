@@ -73,6 +73,9 @@ script:
     # Build code
     - platformio ci --lib="$CI_LIB_PATH/ros_lib" --board=teensy35 --board=teensy36
 
+before_deploy:
+    - doxygen
+
 deploy:
     provider: s3
     access_key_id: AKIAIVN2KOJ2CVJA7SPA
