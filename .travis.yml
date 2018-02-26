@@ -77,18 +77,16 @@ before_deploy:
     - sudo apt-get install -y doxygen
     - cd $CI_SRC_PATH
     - doxygen
-
 deploy:
     provider: s3
-    access_key_id: AKIAIVN2KOJ2CVJA7SPA
+    access_key_id: AKIAJPKG2OXAWEATAZHQ
     secret_access_key:
-        secure: b5iXLbT8Lbwks2CEoQeduTcVAtMKB2G4UOVzCnHn6xKA0tSkJg8ePSbwqx+J4kM3ChCM+1Z++qRsl5+jYI370e78GTogivA17E4eThvUcgaDqg/QgVTOzRG0E35I0OQnrcgE4zF0CFmTIjl+rvpCQz6w4jZ6+IUjK7ZmjEVzQ2DxCwSpCw5xgVHfkvWbYbr63JAdfFqkcYDx+YXIjhHJbJpREcgmYkLIFyNaTwkdSUP8HwD3cOniXgasV+H/2DJlzEvueRO1VntjjP/ourdrf5YA3OZBQYqLWCNTnTDviLwyOh3VyL20GlBHCy3LOco73V2suJd1EQYnQFUS7a9qGgM3FgN8AA4OGXFWcIzqmEywoHRb1MBbatJHxuzQNSwnZuGymWKTUxbl8HNtbyu+wu/7D/bxKz84vzcHtpqu3Ezf0VPGZ5ZCV05ZnmAH8Yn90yop2Gw/g+IRxMEnkXJUwRgrgS12WXKkIgv5HofTD4Z78EiZEtLToSlhkT/eNAzPmyElZ6E3mFpx1TUc2T+uuVk3oPmcyDiMkH76rm6Ggs84GrQoc7HB/o+GLNc1GtaBNs76KCHUVhrz1fOOPo7xGaz5SMJ6pA9eHZavo5lE9zjFYkYK01v12wKCz08iXzET/bLTSAdYSqkBV7hEeQimdEFntA7ssmYRYlFkTJz3Fwk=
+        secure: WX6NSa1J/kTGTvBllB29Msk4gBAO5+D3F5kBEHxrxDdiSUY8eKaGibA76lm0dbcsNqfDJ23+pKRP9V7D4FCOw3/sF1KjF3u3Egq0rYs3bxe88uZIUuSD4B7uMz9AH3gVWLu40wWhd6ejBWHYvKRbflFw5oCc4Nxq70auW5HIHgxL2S+MIGURM+RcGwrAuWbedkLKbZKEAduAuW1x5kftO27LQSERHRnTP0xWT+1j96kpGuMwjGIbRztg9lLQZpWUz5BDypIDv4C9S/GNMtMQ013V+/5otEgPD2mcuxRPOkzZBU6IZUkO5iEIZH2Z1q2/XCumrR0p5TO2PMojzoCIYhtls8ewTi6el45b6A8gKlvFiZgHJ2Jkr0ixzqTjWUtTJsE7pIdbWXMqMm2xgiYS+6eeWb9l/l1t6DSpoDBtb2mno/U5sS9sX18UzdE6AFq8IbPVsHmF2q/Eg34vvortD/giB4J+bI33HGm8w6WVVc0+WSjbRkSuEm2b/Jg/5/Olw+Gy+MWPC/HbSS4HjucUw4B4sljO1wJyHAKcsey7aKPS0n07R0AMQEO9PKPem6I8jTfPAf4zre19yOfeuFYbQG5OdJYXvzhAeIf6JwqPR3onLsnx7rdEK44UGZ1N8Ad4Jc/KOeGCGq//QjCOnh1ze7vadY5hAhZzOgYz5/Mir3o=
     bucket: api.kittcar.com
+    local-dir: "$CI_SRC_PATH/docs"
+    upload-dir: kitt_platform
+    skip_cleanup: true
+    region: us-west-1
     acl: public_read
     on:
         repo: kittcar/kitt_platform
-    skip_cleanup: true
-    region: us-west-1
-    local_dir: $CI_SRC_PATH/docs
-    upload-dir: kitt_platform
-
