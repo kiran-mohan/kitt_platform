@@ -75,8 +75,7 @@ script:
 
 before_deploy:
     - sudo apt-get install -y doxygen
-    - echo $CI_SRC_PATH
-    - ls $CI_SRC_PATH
+    - cd $CI_SRC_PATH
     - doxygen
 
 deploy:
@@ -90,6 +89,6 @@ deploy:
         repo: kittcar/kitt_platform
     skip_cleanup: true
     region: us-west-1
-    local_dir: docs
+    local_dir: $CI_SRC_PATH/docs
     upload-dir: kitt_platform
 
