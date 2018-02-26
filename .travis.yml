@@ -71,10 +71,6 @@ before_script:
     
 script:
     # Build code
-    - pwd
-    - ls -al
-    - cd src
-    - ls -al
     - platformio ci --lib="$CI_LIB_PATH/ros_lib" --board=teensy35 --board=teensy36
 
 before_deploy:
@@ -82,6 +78,7 @@ before_deploy:
     - cd src
     - pwd
     - ls -al
+    - ls ~
     - doxygen
 
 deploy:
