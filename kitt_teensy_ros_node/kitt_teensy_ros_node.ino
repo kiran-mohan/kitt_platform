@@ -1,3 +1,4 @@
+/**@file kitt_teensy_ros_node.ino */
 /*
  * Kitt Teensy ROS Node
  * 
