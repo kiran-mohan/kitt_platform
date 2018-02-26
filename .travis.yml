@@ -74,7 +74,7 @@ script:
     - platformio ci --lib="$CI_LIB_PATH/ros_lib" --board=teensy35 --board=teensy36
 
 before_deploy:
-    - sudo apt-get install doxygen
+    - sudo apt-get install -y doxygen
     - doxygen
 
 deploy:
