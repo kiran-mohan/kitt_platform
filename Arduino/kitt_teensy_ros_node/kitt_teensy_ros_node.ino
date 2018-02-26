@@ -34,13 +34,13 @@
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/Twist.h>
 #include <std_msgs/String.h>
-#include <victoria_debug_msgs/TeensyDebug.h>
-#include <victoria_nav_msgs/Odom2DRaw.h>
-#include <victoria_sensor_msgs/DistanceDisplacement1D.h>
-#include <victoria_sensor_msgs/EncoderCount.h>
-#include <victoria_sensor_msgs/EStop.h>
-#include <victoria_sensor_msgs/FobMode.h>
-#include <victoria_sensor_msgs/IMURaw.h>
+#include <kitt_debug_msgs/TeensyDebug.h>
+#include <kitt_nav_msgs/Odom2DRaw.h>
+#include <kitt_sensor_msgs/DistanceDisplacement1D.h>
+#include <kitt_sensor_msgs/EncoderCount.h>
+#include <kitt_sensor_msgs/EStop.h>
+#include <kitt_sensor_msgs/FobMode.h>
+#include <kitt_sensor_msgs/IMURaw.h>
 
 // Teensy pin definitions
 const int FOB_STOP_1_PIN(2);       // Teensy digital pin 2
@@ -88,7 +88,7 @@ byte fob_mode(0);
 // "fob" activated.
 unsigned int fob_threshold(1575);
 
-// Victoria configuration
+// Kitt configuration
 double ticks_per_radian;
 double track_radius;  // in meters
 double wheel_radius;  // in meters
@@ -131,38 +131,38 @@ void cmdVelCallback(const geometry_msgs::Twist& twist_msg);
 ros::Subscriber<geometry_msgs::Twist> ros_cmd_vel_sub("cmd_vel", cmdVelCallback);
 
 // Set fob mode subscriber
-void setFobModeCallback(const victoria_sensor_msgs::FobMode& fob_mode_msg);
-ros::Subscriber<victoria_sensor_msgs::FobMode> ros_set_fob_mode_sub("set_fob_mode", setFobModeCallback);
+void setFobModeCallback(const kitt_sensor_msgs::FobMode& fob_mode_msg);
+ros::Subscriber<kitt_sensor_msgs::FobMode> ros_set_fob_mode_sub("set_fob_mode", setFobModeCallback);
 
 // Raw 2D Odometry publisher
-victoria_nav_msgs::Odom2DRaw ros_raw_odom_msg;
+kitt_nav_msgs::Odom2DRaw ros_raw_odom_msg;
 ros::Publisher ros_raw_odom_pub("odom_2d_raw", &ros_raw_odom_msg);
 
 // Raw IMU publisher
-victoria_sensor_msgs::IMURaw ros_raw_imu_msg;
+kitt_sensor_msgs::IMURaw ros_raw_imu_msg;
 ros::Publisher ros_raw_imu_pub("imu_raw", &ros_raw_imu_msg);
 
 // Bumper publishers
-victoria_sensor_msgs::DistanceDisplacement1D ros_bumper_left_msg;
-victoria_sensor_msgs::DistanceDisplacement1D ros_bumper_right_msg;
+kitt_sensor_msgs::DistanceDisplacement1D ros_bumper_left_msg;
+kitt_sensor_msgs::DistanceDisplacement1D ros_bumper_right_msg;
 ros::Publisher ros_bumper_left_pub("bumper_left", &ros_bumper_left_msg);
 ros::Publisher ros_bumper_right_pub("bumper_right", &ros_bumper_right_msg);
 
 // Encoder publishers
-victoria_sensor_msgs::EncoderCount ros_encoder_left_msg;
-victoria_sensor_msgs::EncoderCount ros_encoder_right_msg;
+kitt_sensor_msgs::EncoderCount ros_encoder_left_msg;
+kitt_sensor_msgs::EncoderCount ros_encoder_right_msg;
 ros::Publisher ros_encoder_left_pub("encoder_left", &ros_encoder_left_msg);
 ros::Publisher ros_encoder_right_pub("encoder_right", &ros_encoder_right_msg);
 
 // EStop publisher
-victoria_sensor_msgs::EStop ros_estop_msg;
+kitt_sensor_msgs::EStop ros_estop_msg;
 ros::Publisher ros_estop_pub("estop", &ros_estop_msg);
 
 // Position of robot
 geometry_msgs::Pose2D pose;
 
 // Debug publishers
-victoria_debug_msgs::TeensyDebug teensy_debug_msg;
+kitt_debug_msgs::TeensyDebug teensy_debug_msg;
 ros::Publisher ros_teensy_debug_pub("teensy_debug", &teensy_debug_msg);
 
 // Debug blink
@@ -245,16 +245,16 @@ void setup() {
     ros_param_helper.getParam("fob_threshold", 1575);
     
   ticks_per_radian = 
-    ros_param_helper.getParam("victoria_ticks_per_radian", 9072);
+    ros_param_helper.getParam("kitt_ticks_per_radian", 9072);
 
   track_radius = 
-    ros_param_helper.getParam("victoria_track_radius", 0.255);
+    ros_param_helper.getParam("kitt_track_radius", 0.255);
 
   wheel_radius = 
-    ros_param_helper.getParam("victoria_wheel_radius", 0.875);
+    ros_param_helper.getParam("kitt_wheel_radius", 0.875);
 
   max_speed = 
-    ros_param_helper.getParam("victoria_max_speed", 4.71);
+    ros_param_helper.getParam("kitt_max_speed", 4.71);
 
   // Initialize all the hardware
   
@@ -388,7 +388,7 @@ void cmdVelCallback(const geometry_msgs::Twist& cmd_vel_msg) {
   setReferenceVelocity(vl / wheel_radius, vr / wheel_radius);
 }
 
-void setFobModeCallback(const victoria_sensor_msgs::FobMode& fob_mode_msg) {
+void setFobModeCallback(const kitt_sensor_msgs::FobMode& fob_mode_msg) {
   fob_mode = fob_mode_msg.fob_mode;
 }
 
