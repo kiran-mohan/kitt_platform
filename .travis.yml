@@ -75,10 +75,8 @@ script:
 
 before_deploy:
     - sudo apt-get install -y doxygen
-    - cd src
-    - pwd
-    - ls -al
-    - ls ~
+    - echo $CI_SRC_PATH
+    - ls $CI_SRC_PATH
     - doxygen
 
 deploy:
