@@ -85,5 +85,5 @@ deploy:
     skip_cleanup: true
     region: us-west-1
     local_dir: docs
-    upload_dir: kitt_platform
+    upload-dir: kitt_platform
 
