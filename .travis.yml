@@ -77,6 +77,7 @@ before_deploy:
     - sudo apt-get install -y doxygen
     - cd $CI_SRC_PATH
     - doxygen
+
 deploy:
     provider: s3
     access_key_id: AKIAJPKG2OXAWEATAZHQ
