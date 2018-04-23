@@ -19,6 +19,7 @@
 #include <std_msgs/Header.h>
 #include <std_msgs/Empty.h>
 #include <std_msgs/Int32.h>
+#include <ackermann_msgs/AckermannDrive.h>
 
 ros::NodeHandle ros_nh;
 
@@ -28,8 +29,14 @@ ros::Publisher heartbeat_pub("heartbeat", &heartbeat_msg);
 std_msgs::Int32 param_msg;
 ros::Publisher param_pub("param", &param_msg);
 
+ackermann_msgs::AckermannDrive debug_drive_msg;
+ros::Publisher debug_drive_pub("/platform/debug/drive", &debug_drive_msg);
+
 void listenerCallback(const std_msgs::Empty& listener_msg);
 ros::Subscriber<std_msgs::Empty> listener_sub("listener", listenerCallback);
+
+void driveCallback(const ackermann_msgs::AckermannDrive& drive_msg);
+ros::Subscriber<ackermann_msgs::AckermannDrive> drive_sub("/platform/drive", driveCallback);
 
 const int LED_PIN = 13;
 
@@ -51,11 +58,23 @@ void listenerCallback(const std_msgs::Empty& listener_msg)
   digitalWrite(LED_PIN, toggled_led_state);
 }
 
+/**
+ * @brief echo received message onto /platform/debug/drive
+ * @param ackermann_msgs::AckermannDrive the received drive message
+ */
+void driveCallback(const ackermann_msgs::AckermannDrive& drive_msg)
+{
+  debug_drive_msg = drive_msg;
+  debug_drive_pub.publish(&debug_drive_msg);
+}
+
 void setup()
 {
   ros_nh.advertise(heartbeat_pub);
   ros_nh.advertise(param_pub);
+  ros_nh.advertise(debug_drive_pub);
   ros_nh.subscribe(listener_sub);
+  ros_nh.subscribe(drive_sub);
   ros_nh.getHardware()->setBaud(115200);
   ros_nh.initNode();
   while (!ros_nh.connected())
