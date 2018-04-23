@@ -1,0 +1,10 @@
+/** 
+\mainpage
+
+Documentation for all platform related code.
+
+\section kitt_teensy_ros_node kitt_teensy_ros_node
+It's all in kitt_teensy_ros_node.ino for now.
+It has to be broken up into independent modules.
+ 
+*/
