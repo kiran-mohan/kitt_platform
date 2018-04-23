@@ -18,11 +18,15 @@
 #include <ros.h>
 #include <std_msgs/Header.h>
 #include <std_msgs/Empty.h>
+#include <std_msgs/Int32.h>
 
 ros::NodeHandle ros_nh;
 
 std_msgs::Header heartbeat_msg;
 ros::Publisher heartbeat_pub("heartbeat", &heartbeat_msg);
+
+std_msgs::Int32 param_msg;
+ros::Publisher param_pub("param", &param_msg);
 
 void listenerCallback(const std_msgs::Empty& listener_msg);
 ros::Subscriber<std_msgs::Empty> listener_sub("listener", listenerCallback);
@@ -50,6 +54,7 @@ void listenerCallback(const std_msgs::Empty& listener_msg)
 void setup()
 {
   ros_nh.advertise(heartbeat_pub);
+  ros_nh.advertise(param_pub);
   ros_nh.subscribe(listener_sub);
   ros_nh.getHardware()->setBaud(115200);
   ros_nh.initNode();
@@ -59,6 +64,15 @@ void setup()
   }
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);
+  int tmp = 0;
+  if (ros_nh.getParam("tmp_param", &tmp))
+  {
+    param_msg.data = tmp;
+  }
+  else
+  {
+    param_msg.data = 9999;
+  }
 }
 
 void loop()
@@ -66,6 +80,7 @@ void loop()
   // Publish heartbeat_msg every 1 second
   heartbeat_msg.stamp = ros_nh.now();
   heartbeat_pub.publish(&heartbeat_msg);
+  param_pub.publish(&param_msg);
   ros_nh.spinOnce();
   delay(1000);
 }
