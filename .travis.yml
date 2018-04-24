@@ -15,7 +15,7 @@ env:
     - ROS_CI_DESKTOP="`lsb_release -cs`"  # e.g. [precise|trusty|...]
     - CI_SRC_PATH=$(pwd)  
   matrix:
-    - PLATFORMIO_CI_SRC=$CI_SRC_PATH/kitt_teensy_ros_node
+    - PLATFORMIO_CI_SRC=$CI_SRC_PATH/balor
 
 before_install:
     # Get roskeys
