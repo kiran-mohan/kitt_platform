@@ -15,7 +15,7 @@ env:
     - ROS_CI_DESKTOP="`lsb_release -cs`"  # e.g. [precise|trusty|...]
     - CI_SRC_PATH=$(pwd)  
   matrix:
-    - PLATFORMIO_CI_SRC=$CI_SRC_PATH/kitt_teensy_ros_node
+    - PLATFORMIO_CI_SRC=$CI_SRC_PATH/balor
 
 before_install:
     # Get roskeys
@@ -34,6 +34,7 @@ install:
     - sudo apt-get install -y ros-$ROS_DISTRO-common-msgs
     - sudo apt-get install -y ros-$ROS_DISTRO-topic-tools
     - sudo apt-get install -y ros-$ROS_DISTRO-tf
+    - sudo apt-get install -y ros-$ROS_DISTRO-ackermann-msgs
     - pip install -U rospkg
     - pip install -U catkin_pkg
     - pip install -U empy
