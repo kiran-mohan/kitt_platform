@@ -21,13 +21,13 @@
 #include <std_msgs/Int32.h>
 #include <ackermann_msgs/AckermannDrive.h>
 
+// C++ includes
+#include <math.h>
+
 ros::NodeHandle ros_nh;
 
 std_msgs::Header heartbeat_msg;
 ros::Publisher heartbeat_pub("heartbeat", &heartbeat_msg);
-
-std_msgs::Int32 param_msg;
-ros::Publisher param_pub("param", &param_msg);
 
 ackermann_msgs::AckermannDrive debug_drive_msg;
 ros::Publisher debug_drive_pub("/platform/debug/drive", &debug_drive_msg);
@@ -39,6 +39,14 @@ void driveCallback(const ackermann_msgs::AckermannDrive& drive_msg);
 ros::Subscriber<ackermann_msgs::AckermannDrive> drive_sub("/platform/drive", driveCallback);
 
 const int LED_PIN = 13;
+
+// ROS params
+// steering offset in radians
+float steering_offset = M_PI / 2;
+// min_speed in m/s
+float min_speed = 0.0;
+// max_speed in m/s
+float max_speed = 5.0;
 
 /**
  * @brief toggle LED state
@@ -68,10 +76,25 @@ void driveCallback(const ackermann_msgs::AckermannDrive& drive_msg)
   debug_drive_pub.publish(&debug_drive_msg);
 }
 
+/**
+ * @brief get all the required params from the ROS param server
+ */
+void getRequiredParams()
+{
+  if (ros_nh.getParam("drive/steering_offset", &steering_offset))
+  {
+  }
+  if(ros_nh.getParam("drive/min_speed", &min_speed))
+  {
+  }
+  if(ros_nh.getParam("drive/max_speed", &max_speed))
+  {
+  }
+}
+
 void setup()
 {
   ros_nh.advertise(heartbeat_pub);
-  ros_nh.advertise(param_pub);
   ros_nh.advertise(debug_drive_pub);
   ros_nh.subscribe(listener_sub);
   ros_nh.subscribe(drive_sub);
@@ -83,15 +106,7 @@ void setup()
   }
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);
-  int tmp = 0;
-  if (ros_nh.getParam("tmp_param", &tmp))
-  {
-    param_msg.data = tmp;
-  }
-  else
-  {
-    param_msg.data = 9999;
-  }
+  getRequiredParams();
 }
 
 void loop()
@@ -99,7 +114,6 @@ void loop()
   // Publish heartbeat_msg every 1 second
   heartbeat_msg.stamp = ros_nh.now();
   heartbeat_pub.publish(&heartbeat_msg);
-  param_pub.publish(&param_msg);
   ros_nh.spinOnce();
   delay(1000);
 }
