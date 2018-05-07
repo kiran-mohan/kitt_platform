@@ -105,6 +105,7 @@ void setup()
 {
   ros_nh.advertise(heartbeat_pub);
   ros_nh.advertise(debug_drive_pub);
+  ros_nh.advertise(error_pub);
   ros_nh.subscribe(listener_sub);
   ros_nh.subscribe(drive_sub);
   ros_nh.getHardware()->setBaud(115200);
