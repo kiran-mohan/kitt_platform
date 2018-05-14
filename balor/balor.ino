@@ -1,17 +1,17 @@
 /**@file kitt_teensy_ros_node.ino */
 /*
  * Kitt Teensy ROS Node
- * 
+ *
  * This code is the ROS node that executes on the Teensy processor
  * for the Kitt Car team.
- * 
+ *
  * It uses the rosserial library to communicate with ROS. It uses
  * Arduino and Teensy libraries to interact with systems and
  * circuits connected to the Teensy processor. This code assumes
  * that a Teensy 3.5 is used.
- * 
+ *
  * https://github.com/kittcar
- * 
+ *
  */
 
 // ROS includes
@@ -33,13 +33,13 @@ std_msgs::String error_msg;
 ros::Publisher error_pub("platform/debug/error", &error_msg);
 
 ackermann_msgs::AckermannDrive debug_drive_msg;
-ros::Publisher debug_drive_pub("/platform/debug/drive", &debug_drive_msg);
+ros::Publisher debug_drive_pub("platform/debug/drive", &debug_drive_msg);
 
 void listenerCallback(const std_msgs::Empty& listener_msg);
 ros::Subscriber<std_msgs::Empty> listener_sub("listener", listenerCallback);
 
 void driveCallback(const ackermann_msgs::AckermannDrive& drive_msg);
-ros::Subscriber<ackermann_msgs::AckermannDrive> drive_sub("/platform/drive", driveCallback);
+ros::Subscriber<ackermann_msgs::AckermannDrive> drive_sub("platform/drive", driveCallback);
 
 const int LED_PIN = 13;
 
@@ -116,10 +116,7 @@ void setup()
   }
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);
-  if (!getRequiredParams())
-  {
-    params_retrieved_successfully = false;
-  }
+  params_retrieved_successfully = getRequiredParams();
 }
 
 void loop()
@@ -135,4 +132,3 @@ void loop()
   ros_nh.spinOnce();
   delay(1000);
 }
-
